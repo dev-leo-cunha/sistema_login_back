@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import apiRoutes from './routes/api';
 
+const port = process.env.PORT || "8080"
+
 dotenv.config();
 
 const server = express();
@@ -34,4 +36,4 @@ const errorHandler: ErrorRequestHandler = (err:ErrorRequestHandler, req:Request,
 server.use(errorHandler);
 
 // Declarando a porta que o server irá ler.
-server.listen(process.env.PORT);
+server.listen(port);
