@@ -3,7 +3,7 @@ import  {Auth}  from '../middlewares/auth';
 
 import * as ApiController from '../controllers/apiController';
 
-const router = Router();
+const router = Router()
 // definindo o nome das rotas e mandando pro ApiController
 router.get('/ping', ApiController.ping)
 router.get('/pingg', ApiController.ping)
