@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import JWT from "jsonwebtoken";
-import dotenv from 'dotenv'
-
-dotenv.config();
+require('dotenv').config()
 
 // middleware para fazer a verificação se o usuário está conectado (Utilizando JWT). 
 export const Auth = {

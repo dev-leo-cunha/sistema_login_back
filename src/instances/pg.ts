@@ -1,7 +1,5 @@
 import { Sequelize } from 'sequelize'; 
-import dotenv from 'dotenv';
-
-dotenv.config();
+require('dotenv').config()
 
 // Usando o Sequelize para fazer a conexão ao postgres
 export const sequelize = new Sequelize(

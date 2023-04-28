@@ -1,12 +1,12 @@
+import * as _ from 'lodash';
 import express, { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
 import path from 'path';
-import dotenv from 'dotenv';
+require('dotenv').config()
 import cors from 'cors';
 import apiRoutes from './routes/api';
 
 const port = process.env.PORT || "8080"
 
-dotenv.config();
 
 const server = express();
 

@@ -3,9 +3,7 @@ import { User } from '../models/User';
 const bcrypt = require('bcrypt');
 import EmailValidator from 'email-validator';
 import JWT from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-dotenv.config();
+require('dotenv').config()
 
 // Função para verificar se o servidor está funcionando corretamente
 export const ping = (req: Request, res: Response) => {
