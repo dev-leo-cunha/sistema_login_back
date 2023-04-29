@@ -10,7 +10,7 @@ const port = process.env.PORT || "8080"
 
 const server = express();
 
-server.use(cors({origin: 'https://sistema-login-front.vercel.app/'}));
+server.use(cors());
 
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({ extended: true }));
