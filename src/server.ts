@@ -10,16 +10,7 @@ const port = process.env.PORT || "8080"
 
 const server = express();
 
-server.use(cors(
-    {
-    origin: "*",
-    methods: "GET,POST",
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    allowedHeaders: '*',
-    maxAge: 86400,
-    credentials: true
-  }));
+server.use(cors());
 
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({ extended: true }));
