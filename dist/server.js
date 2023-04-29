@@ -16,7 +16,8 @@ server.use((0, cors_1.default)({
     preflightContinue: false,
     optionsSuccessStatus: 204,
     allowedHeaders: '*',
-    maxAge: 86400
+    maxAge: 86400,
+    credentials: true
 }));
 server.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
 server.use(express_1.default.urlencoded({ extended: true }));

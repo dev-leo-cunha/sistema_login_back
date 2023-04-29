@@ -17,7 +17,8 @@ server.use(cors(
     preflightContinue: false,
     optionsSuccessStatus: 204,
     allowedHeaders: '*',
-    maxAge: 86400
+    maxAge: 86400,
+    credentials: true
   }));
 
 server.use(express.static(path.join(__dirname, '../public')));
