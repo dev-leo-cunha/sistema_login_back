@@ -11,10 +11,12 @@ const api_1 = __importDefault(require("./routes/api"));
 const port = process.env.PORT || "8080";
 const server = (0, express_1.default)();
 server.use((0, cors_1.default)({
-    "origin": "*",
-    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-    "preflightContinue": false,
-    "optionsSuccessStatus": 204
+    origin: "*",
+    methods: "GET,POST",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    allowedHeaders: '*',
+    maxAge: 86400
 }));
 server.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
 server.use(express_1.default.urlencoded({ extended: true }));

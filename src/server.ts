@@ -12,10 +12,12 @@ const server = express();
 
 server.use(cors(
     {
-    "origin": "*",
-    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-    "preflightContinue": false,
-    "optionsSuccessStatus": 204
+    origin: "*",
+    methods: "GET,POST",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    allowedHeaders: '*',
+    maxAge: 86400
   }));
 
 server.use(express.static(path.join(__dirname, '../public')));
