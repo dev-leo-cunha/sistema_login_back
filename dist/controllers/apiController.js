@@ -8,40 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.access = exports.login = exports.register = exports.ping = void 0;
+exports.access = exports.login = exports.register = void 0;
 const User_1 = require("../models/User");
-const bcrypt = require('bcrypt');
-const email_validator_1 = __importDefault(require("email-validator"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const tokenHandler_1 = require("../services/tokenHandler");
+const verifyRegister_1 = require("../services/verifyRegister");
+const bcryptHash_1 = require("../services/bcryptHash");
 require('dotenv').config();
-// Função para verificar se o servidor está funcionando corretamente
-const ping = (req, res) => {
-    return res.json({ pong: true });
-};
-exports.ping = ping;
 // Função para lidar com o registro de novos usuários
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.email && req.body.password && req.body.fullName && req.body.passwordRepeat) {
         let { email, password, fullName, passwordRepeat } = req.body;
-        if (!email_validator_1.default.validate(email)) {
-            return res.json({ error: 'Email Inválido!' });
-        }
-        if (password !== passwordRepeat) {
-            return res.json({ error: 'As Senhas não conferem!' });
-        }
-        if (password.length <= 3 || passwordRepeat.length <= 3) {
-            return res.json({ error: 'Senha Fraca!' });
+        const verify = (0, verifyRegister_1.verifyRegister)(email, password, passwordRepeat);
+        if (typeof verify === 'string') {
+            return res.json({ error: verify });
         }
         let hasUser = yield User_1.User.findOne({ where: { email } });
         if (!hasUser) {
-            const salt = yield bcrypt.genSalt(12);
-            const passwordHash = yield bcrypt.hash(password, salt);
+            const passwordHash = yield (0, bcryptHash_1.encryptHash)(password);
             let newUser = yield User_1.User.create({ email, password: passwordHash, fullName });
-            const token = jsonwebtoken_1.default.sign({ id: newUser.id, email: newUser.email }, process.env.SECRET_KEY, { expiresIn: '2h' });
+            const token = (0, tokenHandler_1.generateToken)(newUser.id, newUser.email);
             return res.json({ email, fullName, token });
         }
         else {
@@ -54,18 +40,15 @@ exports.register = register;
 // fução para lidar com a autenticação do usuário.
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.email && req.body.password) {
-        let email = req.body.email;
-        let password = req.body.password;
-        let user = yield User_1.User.findOne({
-            where: { email }
-        });
+        let { email, password } = req.body;
+        let user = yield User_1.User.findOne({ where: { email } });
         if (user) {
-            const match = yield bcrypt.compare(password, user.password);
+            const match = (0, bcryptHash_1.CompareHash)(password, user.password);
             if (!match) {
                 return res.json({ status: false });
             }
             try {
-                const token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '2h' });
+                const token = (0, tokenHandler_1.generateToken)(user.id, user.email);
                 return res.json({ status: true, token, email: user.email, fullName: user.fullName });
             }
             catch (error) {

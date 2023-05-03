@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import JWT from "jsonwebtoken";
-require('dotenv').config()
+import { verifyToken } from "../services/tokenHandler";
 
 // middleware para fazer a verificação se o usuário está conectado (Utilizando JWT). 
 export const Auth = {
@@ -10,16 +9,13 @@ export const Auth = {
             const [authType, token] = req.headers.authorization.split(' ');
             if(authType === 'Bearer' && token) {
                 try {
-                    JWT.verify(token, process.env.SECRET_KEY as string)
+                    verifyToken(token);
                     success = true;
                 } catch (error) {
-                    console.log(error)
+                    return res.json({error:'Não Autorizado!'})
                 }
             }
-        } else {
-            return res.json({error:'Não Autorizado!'})
         }
-
         if(success) {
             return next();
         } else {

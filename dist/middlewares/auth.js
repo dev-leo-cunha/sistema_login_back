@@ -8,13 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-require('dotenv').config();
+const tokenHandler_1 = require("../services/tokenHandler");
 // middleware para fazer a verificação se o usuário está conectado (Utilizando JWT). 
 exports.Auth = {
     private: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,16 +19,13 @@ exports.Auth = {
             const [authType, token] = req.headers.authorization.split(' ');
             if (authType === 'Bearer' && token) {
                 try {
-                    jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY);
+                    (0, tokenHandler_1.verifyToken)(token);
                     success = true;
                 }
                 catch (error) {
-                    console.log(error);
+                    return res.json({ error: 'Não Autorizado!' });
                 }
             }
-        }
-        else {
-            return res.json({ error: 'Não Autorizado!' });
         }
         if (success) {
             return next();

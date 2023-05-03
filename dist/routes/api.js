@@ -28,7 +28,6 @@ const auth_1 = require("../middlewares/auth");
 const ApiController = __importStar(require("../controllers/apiController"));
 const router = (0, express_1.Router)();
 // definindo o nome das rotas e mandando pro ApiController
-router.get('/ping', ApiController.ping);
 router.post('/register', ApiController.register);
 router.post('/login', ApiController.login);
 router.post('/access', auth_1.Auth.private, ApiController.access);
