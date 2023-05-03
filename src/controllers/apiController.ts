@@ -34,7 +34,8 @@ export const login = async (req: Request, res: Response) => {
         let user = await User.findOne({where: { email }});
 
         if(user) {
-            const match = CompareHash(password, user.password)
+            const match =  await CompareHash(password, user.password)
+            console.log(match)
 
             if(!match) { return res.json({ status: false}) }
 

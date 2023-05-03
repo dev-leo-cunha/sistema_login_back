@@ -6,6 +6,6 @@ export const encryptHash = async (password:string)=>{
     return passwordHash
 }
 
-export const CompareHash = (password:string, userPassword:string)=>{
-    return bcrypt.compare(password, userPassword);
+export const CompareHash = async(password:string, userPassword:string)=>{
+    return await bcrypt.compare(password, userPassword);
 }

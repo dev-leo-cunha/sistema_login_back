@@ -43,7 +43,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let { email, password } = req.body;
         let user = yield User_1.User.findOne({ where: { email } });
         if (user) {
-            const match = (0, bcryptHash_1.CompareHash)(password, user.password);
+            const match = yield (0, bcryptHash_1.CompareHash)(password, user.password);
+            console.log(match);
             if (!match) {
                 return res.json({ status: false });
             }

@@ -17,8 +17,8 @@ const encryptHash = (password) => __awaiter(void 0, void 0, void 0, function* ()
     return passwordHash;
 });
 exports.encryptHash = encryptHash;
-const CompareHash = (password, userPassword) => {
-    return bcrypt.compare(password, userPassword);
-};
+const CompareHash = (password, userPassword) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield bcrypt.compare(password, userPassword);
+});
 exports.CompareHash = CompareHash;
 //# sourceMappingURL=bcryptHash.js.map
