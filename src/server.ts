@@ -21,6 +21,18 @@ server.use(express.json());
 //usando as rotas
 server.use(apiRoutes);
 
+// Caso a api retorne algum erro, retornar erro.
+server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err) {
+      return res.status(400).json({
+        message: err.message,
+      });
+    }
+    return res.status(500).json({
+      message: "Erro interno do server.",
+    });
+  });
+
 // Caso a rota não exista, retornar erro.
 server.use((req: Request, res: Response) => {
     res.status(404);

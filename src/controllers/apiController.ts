@@ -1,59 +1,34 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/User';
-import { generateToken } from '../services/tokenHandler';
-import { verifyRegister } from '../services/verifyRegister';
-import { encryptHash, CompareHash } from '../services/bcryptHash';
+import * as UserServices from '../services/UserServices';
 require('dotenv').config()
 
 // Função para lidar com o registro de novos usuários
-export const register = async (req: Request, res: Response) => {
-    if(req.body.email && req.body.password && req.body.fullName && req.body.passwordRepeat) {
-        let { email, password, fullName, passwordRepeat } = req.body;
-            const verify = verifyRegister(email,password,passwordRepeat)
-            if(typeof verify === 'string') {
-                return res.json({error: verify})
-            }            
-            let hasUser = await User.findOne({where: { email }});
-            if(!hasUser) {
-                const passwordHash = await encryptHash(password)
-                let newUser = await User.create({ email, password:passwordHash, fullName });
-                const token = generateToken(newUser.id, newUser.email);
+export const register = async (req: Request, res: Response, next:NextFunction) => {
+    const {email, password, fullName, passwordRepeat} = req.body
+    try {
+        const result = await UserServices.register({email, password, fullName, passwordRepeat})
 
-                    return res.json({ email, fullName, token })
-            } else {
-                return res.json({ error: 'E-mail já cadastrado.' });
-            }
+        return res.status(201).json(result)
+    } catch (error) {
+        next(error)
     }
-    return res.json({ error: 'Preencha todos os dados!' });
 }
 // fução para lidar com a autenticação do usuário.
-export const login = async (req: Request, res: Response) => {
-    if(req.body.email && req.body.password) {
-        let {email, password} = req.body;
-
-        let user = await User.findOne({where: { email }});
-
-        if(user) {
-            const match =  await CompareHash(password, user.password)
-            console.log(match)
-
-            if(!match) { return res.json({ status: false}) }
-
-            try {
-                const token = generateToken(user.id, user.email);
-
-                return res.json({ status:true, token, email:user.email, fullName:user.fullName });
-            }   catch (error) {
-                return res.json({ status:false });
-            }
-        }
+export const login = async (req: Request, res: Response, next:NextFunction) => {
+    const {email, password} = req.body
+    try {
+        const result = await UserServices.login(email, password)
+        return res.status(200).json(result)
+    }catch(error){
+        next(error)
     }
-    res.json({ status: false });
 }
 
 // função para, assim que autenticado, dar acesso ao usuário.
-export const access = async (req: Request, res: Response) => {
-            let users = await User.findAll();
+export const access = async (req: Request, res: Response, next:NextFunction) => {
+    try {
+        let users = await User.findAll();
             let list: string[] = [];
 
             for(let i in users) {
@@ -61,4 +36,7 @@ export const access = async (req: Request, res: Response) => {
             }
 
             return res.json({ list });
+    } catch (error) {
+        next(error)
+    }
 }
