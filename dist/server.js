@@ -10,6 +10,12 @@ const cors_1 = __importDefault(require("cors"));
 const api_1 = __importDefault(require("./routes/api"));
 const port = process.env.PORT || "8080";
 const server = (0, express_1.default)();
+server.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://sistema-login.leonardocunha.dev.br');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
 server.use((0, cors_1.default)());
 server.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
 server.use(express_1.default.urlencoded({ extended: true }));
