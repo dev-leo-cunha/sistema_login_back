@@ -9,6 +9,12 @@ const port = process.env.PORT || "8080"
 
 
 const server = express();
+server.use((req:Request, res:Response, next:NextFunction) => {
+  res.header('Access-Control-Allow-Origin', 'https://sistema-login.leonardocunha.dev.br');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 server.use(cors());
 
