@@ -61,7 +61,7 @@ export const update = async (newName:string, newPassword:string, password:string
   }
   const match = await CompareHash(password, findUser.password);
   if(!match) {
-    throw new Error("Senha incorreta!");
+    throw new Error("Senha incorreta!!");
   }
   if(newName) {
     await UserRepositories.updateName(userId, newName);
