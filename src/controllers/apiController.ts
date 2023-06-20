@@ -40,3 +40,15 @@ export const access = async (req: Request, res: Response, next:NextFunction) => 
         next(error)
     }
 }
+
+export const update = async (req: Request, res: Response, next:NextFunction) => {
+    const {newName, newPassword, password} = req.body
+    const {userId} = req
+    console.log(userId)
+    try {
+        const result = await UserServices.update(newName, newPassword, password, userId)
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
+}

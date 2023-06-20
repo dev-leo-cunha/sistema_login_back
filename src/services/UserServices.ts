@@ -50,3 +50,25 @@ export const login = async ( email:string, password:string ) => {
     
     return { token, email: findUser.email, fullName: findUser.fullName };
 }
+
+export const update = async (newName:string, newPassword:string, password:string, userId:string) => {
+  if(!password) {
+    throw new Error("Campo de senha Obrigatório!");
+  }
+  const findUser = await UserRepositories.findUserById(userId);
+  if(!findUser) {
+    throw new Error("Usuário não encontrado!");
+  }
+  const match = await CompareHash(password, findUser.password);
+  if(!match) {
+    throw new Error("Senha incorreta!");
+  }
+  if(newName) {
+    await UserRepositories.updateName(userId, newName);
+  }
+  if(newPassword) {
+    const hashPassword = await encryptHash(newPassword);
+    await UserRepositories.updatePassword(userId, hashPassword);
+  }
+  return { message: "Usuário atualizado com sucesso!" };
+}
