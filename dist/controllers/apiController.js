@@ -32,10 +32,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.access = exports.login = exports.register = void 0;
+exports.access = exports.login = exports.register = void 0;
 const User_1 = require("../models/User");
 const UserServices = __importStar(require("../services/UserServices"));
-require('dotenv').config();
 // Função para lidar com o registro de novos usuários
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, fullName, passwordRepeat } = req.body;
@@ -75,17 +74,16 @@ const access = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.access = access;
-const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { newName, newPassword, password } = req.body;
-    const { userId } = req;
-    console.log(userId);
+/*
+export const update = async (req: Request, res: Response, next:NextFunction) => {
+    const {newName, newPassword, password} = req.body
+    const {userId} = req
+    console.log(userId)
     try {
-        const result = yield UserServices.update(newName, newPassword, password, userId);
-        return res.status(200).json(result);
+        const result = await UserServices.update(newName, newPassword, password, userId)
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
     }
-    catch (error) {
-        next(error);
-    }
-});
-exports.update = update;
+}*/ 
 //# sourceMappingURL=apiController.js.map
