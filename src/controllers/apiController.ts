@@ -39,7 +39,7 @@ export const access = async (req: Request, res: Response, next:NextFunction) => 
         next(error)
     }
 }
-
+/*
 export const update = async (req: Request, res: Response, next:NextFunction) => {
     const {newName, newPassword, password} = req.body
     const {userId} = req
@@ -50,4 +50,4 @@ export const update = async (req: Request, res: Response, next:NextFunction) => 
     } catch (error) {
         next(error)
     }
-}
+}*/

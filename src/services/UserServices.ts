@@ -51,7 +51,7 @@ export const login = async ( email:string, password:string ) => {
     return { token, email: findUser.email, fullName: findUser.fullName };
 }
 
-export const update = async (newName:string, newPassword:string, password:string, userId:string) => {
+/* export const update = async (newName:string, newPassword:string, password:string, userId:string) => {
   if(!password) {
     throw new Error("Campo de senha Obrigatório!");
   }
@@ -71,4 +71,4 @@ export const update = async (newName:string, newPassword:string, password:string
     await UserRepositories.updatePassword(userId, hashPassword);
   }
   return { message: "Usuário atualizado com sucesso!" };
-}
+}*/
