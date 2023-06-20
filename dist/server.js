@@ -17,6 +17,17 @@ server.use(express_1.default.urlencoded({ extended: true }));
 server.use(express_1.default.json());
 //usando as rotas
 server.use(api_1.default);
+// Caso a api retorne algum erro, retornar erro.
+server.use((err, req, res, next) => {
+    if (err) {
+        return res.status(400).json({
+            message: err.message,
+        });
+    }
+    return res.status(500).json({
+        message: "Erro interno do server.",
+    });
+});
 // Caso a rota não exista, retornar erro.
 server.use((req, res) => {
     res.status(404);

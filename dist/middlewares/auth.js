@@ -10,28 +10,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
-const tokenHandler_1 = require("../services/tokenHandler");
+const jsonwebtoken_1 = require("jsonwebtoken");
 // middleware para fazer a verificação se o usuário está conectado (Utilizando JWT). 
 exports.Auth = {
     private: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        let success = false;
-        if (req.headers.authorization) {
-            const [authType, token] = req.headers.authorization.split(' ');
-            if (authType === 'Bearer' && token) {
-                try {
-                    (0, tokenHandler_1.verifyToken)(token);
-                    success = true;
-                }
-                catch (error) {
-                    return res.json({ error: 'Não Autorizado!' });
-                }
-            }
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({
+                code: "token.missing",
+                message: "Token Faltando!",
+            });
         }
-        if (success) {
+        const [, token] = authHeader.split(" ");
+        try {
+            const secret = process.env.SECRET_KEY;
+            if (!secret) {
+                throw new Error("Não existe a chave do token!");
+            }
+            const { id } = (0, jsonwebtoken_1.verify)(token, secret);
+            req.userId = id;
             return next();
         }
-        else {
-            return res.json({ error: 'Não Autorizado!' });
+        catch (error) {
+            return res.status(401).json({
+                code: "token.expired",
+                message: "Token expirado",
+            });
         }
     })
 };
