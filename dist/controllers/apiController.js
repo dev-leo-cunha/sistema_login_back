@@ -87,7 +87,6 @@ exports.access = access;
 const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { newName, newPassword, password } = req.body;
     const { userId } = req;
-    console.log(userId);
     try {
         const result = yield UserServices.update(newName, newPassword, password, userId);
         return res.status(200).json(result);

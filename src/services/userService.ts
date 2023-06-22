@@ -58,7 +58,7 @@ export const update = async (
   userId: string
 ) => {
   if (!password) {
-    throw new Error("Campo de senha Obrigatório!");
+    throw new Error("Campo de senha antiga Obrigatório!");
   }
   const findUser = await UserRepositories.findUserById(userId);
   if (!findUser) {
@@ -66,7 +66,7 @@ export const update = async (
   }
   const match = await CompareHash(password, findUser.password);
   if (!match) {
-    throw new Error("Senha incorreta!!");
+    throw new Error("Senha antiga incorreta!!");
   }
   if (newName) {
     await UserRepositories.updateName(userId, newName);

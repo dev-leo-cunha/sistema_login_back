@@ -78,7 +78,7 @@ const login = (email, password) => __awaiter(void 0, void 0, void 0, function* (
 exports.login = login;
 const update = (newName, newPassword, password, userId) => __awaiter(void 0, void 0, void 0, function* () {
     if (!password) {
-        throw new Error("Campo de senha Obrigatório!");
+        throw new Error("Campo de senha antiga Obrigatório!");
     }
     const findUser = yield UserRepositories.findUserById(userId);
     if (!findUser) {
@@ -86,7 +86,7 @@ const update = (newName, newPassword, password, userId) => __awaiter(void 0, voi
     }
     const match = yield (0, bcryptHash_1.CompareHash)(password, findUser.password);
     if (!match) {
-        throw new Error("Senha incorreta!!");
+        throw new Error("Senha antiga incorreta!!");
     }
     if (newName) {
         yield UserRepositories.updateName(userId, newName);

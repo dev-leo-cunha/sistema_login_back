@@ -15,19 +15,7 @@ dotenv.config();
 const port = process.env.PORT || "8080";
 
 const server = express();
-
-server.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
-  );
-  next();
-});
-
-server.use(cors()); // <---- use cors middleware
+server.use(cors());
 
 server.use(express.static(path.join(__dirname, "../public")));
 server.use(express.urlencoded({ extended: true }));
@@ -41,7 +29,7 @@ server.use(apiRoutes);
 // Caso a api retorne algum erro, retornar erro.
 server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err) {
-    return res.status(400).json({
+    return res.json({
       message: err.message,
     });
   }

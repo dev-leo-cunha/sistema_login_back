@@ -66,7 +66,6 @@ export const update = async (
 ) => {
   const { newName, newPassword, password } = req.body;
   const { userId } = req;
-  console.log(userId);
   try {
     const result = await UserServices.update(
       newName,
