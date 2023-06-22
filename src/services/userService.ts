@@ -51,7 +51,7 @@ export const login = async (email: string, password: string) => {
   return { token, email: findUser.email, fullName: findUser.fullName };
 };
 
-export const update = async (
+/* export const update = async (
   newName: string,
   newPassword: string,
   password: string,
@@ -76,4 +76,4 @@ export const update = async (
     await UserRepositories.updatePassword(userId, hashPassword);
   }
   return { message: "Usuário atualizado com sucesso!" };
-};
+};*/

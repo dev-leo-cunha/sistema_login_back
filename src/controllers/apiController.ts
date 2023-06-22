@@ -58,7 +58,7 @@ export const access = async (
     next(error);
   }
 };
-
+/*
 export const update = async (
   req: Request,
   res: Response,
@@ -78,4 +78,4 @@ export const update = async (
   } catch (error) {
     next(error);
   }
-};
+};*/
