@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User";
 import * as UserServices from "../services/UserServices";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Função para lidar com o registro de novos usuários
 export const register = async (

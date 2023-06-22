@@ -11,14 +11,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const port = process.env.PORT || "8080";
 const server = (0, express_1.default)();
-server.use((req, res, next) => {
-    //Qual site tem permissão de realizar a conexão, no exemplo abaixo está o "*" indicando que qualquer site pode fazer a conexão
-    res.header("Access-Control-Allow-Origin", "*");
-    //Quais são os métodos que a conexão pode realizar na API
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-    server.use((0, cors_1.default)());
-    next();
-});
+server.use((0, cors_1.default)());
 server.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
 server.use(express_1.default.urlencoded({ extended: true }));
 // Definindo que o server irá utilizar JSON para se comunicar.

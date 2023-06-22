@@ -16,7 +16,7 @@ export const register = async ({
   if (password !== passwordRepeat) {
     throw new Error("Senhas não conferem.");
   }
-  const checkEmail = EmailValidator.validate(email);
+  const checkEmail = await EmailValidator.validate(email);
   if (!checkEmail) {
     throw new Error("E-mail inválido.");
   }
@@ -46,7 +46,7 @@ export const login = async (email: string, password: string) => {
   if (!match) {
     throw new Error("Email ou Senha incorreta.");
   }
-  const token = generateToken(findUser.id, findUser.email);
+  const token = await generateToken(findUser.id, findUser.email);
 
   return { token, email: findUser.email, fullName: findUser.fullName };
 };

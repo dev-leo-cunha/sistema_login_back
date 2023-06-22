@@ -31,10 +31,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.update = exports.access = exports.login = exports.register = void 0;
 const User_1 = require("../models/User");
 const UserServices = __importStar(require("../services/UserServices"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 // Função para lidar com o registro de novos usuários
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, fullName, passwordRepeat } = req.body;
