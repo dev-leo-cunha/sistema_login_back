@@ -11,7 +11,14 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const port = process.env.PORT || "8080";
 const server = (0, express_1.default)();
-server.use((0, cors_1.default)());
+server.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json");
+    next();
+});
+server.use((0, cors_1.default)()); // <---- use cors middleware
 server.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
 server.use(express_1.default.urlencoded({ extended: true }));
 // Definindo que o server irá utilizar JSON para se comunicar.
