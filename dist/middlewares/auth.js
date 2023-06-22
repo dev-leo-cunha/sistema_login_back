@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
 const jsonwebtoken_1 = require("jsonwebtoken");
-// middleware para fazer a verificação se o usuário está conectado (Utilizando JWT). 
+// middleware para fazer a verificação se o usuário está conectado (Utilizando JWT).
 exports.Auth = {
     private: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const authHeader = req.headers.authorization;
@@ -37,6 +37,6 @@ exports.Auth = {
                 message: "Token expirado",
             });
         }
-    })
+    }),
 };
 //# sourceMappingURL=auth.js.map

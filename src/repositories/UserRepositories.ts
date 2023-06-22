@@ -20,8 +20,11 @@ export const findUserById = async (id: string) => {
 export const updateName = async (id: string, newName: string) => {
   const result = await User.update({ fullName: newName }, { where: { id } });
   return result;
-}
+};
 export const updatePassword = async (id: string, newPassword: string) => {
-  const result = await User.update({ password: newPassword }, { where: { id } });
+  const result = await User.update(
+    { password: newPassword },
+    { where: { id } }
+  );
   return result;
-}
+};

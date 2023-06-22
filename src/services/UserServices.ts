@@ -34,41 +34,46 @@ export const register = async ({
   return newUser;
 };
 
-export const login = async ( email:string, password:string ) => {
-    if (!email || !password) {
-        throw new Error("Preencha todos os campos.");
-    }
-    const findUser = await UserRepositories.findUserByEmail(email);
-    if (!findUser) {
-        throw new Error("Email ou Senha incorreta.");
-    }
-    const match = await CompareHash(password, findUser.password);
-    if (!match) {
-        throw new Error("Email ou Senha incorreta.");
-    }
-    const token = generateToken(findUser.id, findUser.email);
-    
-    return { token, email: findUser.email, fullName: findUser.fullName };
-}
+export const login = async (email: string, password: string) => {
+  if (!email || !password) {
+    throw new Error("Preencha todos os campos.");
+  }
+  const findUser = await UserRepositories.findUserByEmail(email);
+  if (!findUser) {
+    throw new Error("Email ou Senha incorreta.");
+  }
+  const match = await CompareHash(password, findUser.password);
+  if (!match) {
+    throw new Error("Email ou Senha incorreta.");
+  }
+  const token = generateToken(findUser.id, findUser.email);
 
-/* export const update = async (newName:string, newPassword:string, password:string, userId:string) => {
-  if(!password) {
+  return { token, email: findUser.email, fullName: findUser.fullName };
+};
+
+export const update = async (
+  newName: string,
+  newPassword: string,
+  password: string,
+  userId: string
+) => {
+  if (!password) {
     throw new Error("Campo de senha Obrigatório!");
   }
   const findUser = await UserRepositories.findUserById(userId);
-  if(!findUser) {
+  if (!findUser) {
     throw new Error("Usuário não encontrado!");
   }
   const match = await CompareHash(password, findUser.password);
-  if(!match) {
+  if (!match) {
     throw new Error("Senha incorreta!!");
   }
-  if(newName) {
+  if (newName) {
     await UserRepositories.updateName(userId, newName);
   }
-  if(newPassword) {
+  if (newPassword) {
     const hashPassword = await encryptHash(newPassword);
     await UserRepositories.updatePassword(userId, hashPassword);
   }
   return { message: "Usuário atualizado com sucesso!" };
-}*/
+};
