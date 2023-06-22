@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../services/tokenHandler";
 import { verify } from "jsonwebtoken";
 
 interface TokenPayload {

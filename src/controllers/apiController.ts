@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User";
-import * as UserServices from "../services/UserServices";
+import * as UserServices from "../services/userService";
 import dotenv from "dotenv";
 dotenv.config();
 
