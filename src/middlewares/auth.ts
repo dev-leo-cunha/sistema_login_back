@@ -22,7 +22,7 @@ export const Auth = {
       if (!secret) {
         throw new Error("Não existe a chave do token!");
       }
-      const { id } = verify(token, secret) as TokenPayload;
+      const { id } = await verify(token, secret) as TokenPayload;
       req.userId = id;
       return next();
     } catch (error) {

@@ -27,7 +27,7 @@ exports.Auth = {
             if (!secret) {
                 throw new Error("Não existe a chave do token!");
             }
-            const { id } = (0, jsonwebtoken_1.verify)(token, secret);
+            const { id } = yield (0, jsonwebtoken_1.verify)(token, secret);
             req.userId = id;
             return next();
         }
