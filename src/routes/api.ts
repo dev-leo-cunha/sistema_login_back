@@ -8,6 +8,6 @@ const router = Router()
 router.post('/register', ApiController.register);
 router.post('/login', ApiController.login);
 router.post('/access', Auth.private, ApiController.access);
-// router.put('/update', Auth.private, ApiController.update);
+router.put('/update', Auth.private, ApiController.update);
 
 export default router;

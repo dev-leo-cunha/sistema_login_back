@@ -12,7 +12,7 @@ export const createUser = async (
   const result = await User.create({ email, password, fullName });
   return result;
 };
-/*
+
 export const findUserById = async (id: string) => {
   const result = await User.findOne({ where: { id } });
   return result;
@@ -30,4 +30,4 @@ export const updatePassword = async (id: string, newPassword: string) => {
   );
   return result;
 };
-*/
+

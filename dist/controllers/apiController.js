@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.access = exports.login = exports.register = void 0;
+exports.update = exports.access = exports.login = exports.register = void 0;
 const User_1 = require("../models/User");
 const UserServices = __importStar(require("../services/userService"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -84,25 +84,17 @@ const access = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.access = access;
-/*
-export const update = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { newName, newPassword, password } = req.body;
-  const { userId } = req;
-  console.log(userId);
-  try {
-    const result = await UserServices.update(
-      newName,
-      newPassword,
-      password,
-      userId
-    );
-    return res.status(200).json(result);
-  } catch (error) {
-    next(error);
-  }
-};*/
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { newName, newPassword, password } = req.body;
+    const { userId } = req;
+    console.log(userId);
+    try {
+        const result = yield UserServices.update(newName, newPassword, password, userId);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.update = update;
 //# sourceMappingURL=apiController.js.map

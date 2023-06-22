@@ -31,6 +31,6 @@ const router = (0, express_1.Router)();
 router.post('/register', ApiController.register);
 router.post('/login', ApiController.login);
 router.post('/access', auth_1.Auth.private, ApiController.access);
-// router.put('/update', Auth.private, ApiController.update);
+router.put('/update', auth_1.Auth.private, ApiController.update);
 exports.default = router;
 //# sourceMappingURL=api.js.map
