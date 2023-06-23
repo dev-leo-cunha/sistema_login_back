@@ -95,7 +95,7 @@ const update = (newName, newPassword, password, userId) => __awaiter(void 0, voi
         const hashPassword = yield (0, bcryptHash_1.encryptHash)(newPassword);
         yield UserRepositories.updatePassword(userId, hashPassword);
     }
-    return { message: "Usuário atualizado com sucesso!" };
+    return { message: "Usuário atualizado com sucesso! Você será Redirecionado", id: userId };
 });
 exports.update = update;
 //# sourceMappingURL=userService.js.map

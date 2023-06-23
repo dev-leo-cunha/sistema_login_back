@@ -22,11 +22,11 @@ server.use(api_1.default);
 server.use((err, req, res, next) => {
     if (err) {
         return res.json({
-            message: err.message,
+            error: err.message,
         });
     }
     return res.status(500).json({
-        message: "Erro interno do server.",
+        error: "Erro interno do server.",
     });
 });
 // Caso a rota não exista, retornar erro.

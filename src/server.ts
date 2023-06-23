@@ -30,11 +30,11 @@ server.use(apiRoutes);
 server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err) {
     return res.json({
-      message: err.message,
+      error: err.message,
     });
   }
   return res.status(500).json({
-    message: "Erro interno do server.",
+    error: "Erro interno do server.",
   });
 });
 

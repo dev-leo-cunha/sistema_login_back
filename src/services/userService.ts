@@ -75,5 +75,5 @@ export const update = async (
     const hashPassword = await encryptHash(newPassword);
     await UserRepositories.updatePassword(userId, hashPassword);
   }
-  return { message: "Usuário atualizado com sucesso!" };
+  return { message: "Usuário atualizado com sucesso! Você será Redirecionado", id: userId };
 };
