@@ -3,4 +3,5 @@ export interface ICreate {
   email: string;
   password: string;
   passwordRepeat: string;
+  token?: string;
 }

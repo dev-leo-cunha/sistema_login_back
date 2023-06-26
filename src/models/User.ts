@@ -6,7 +6,8 @@ export interface UserInstance extends Model {
     id: number;
     email: string;
     password: string;
-    fullName: string
+    fullName: string;
+    token: string;
 }
 
 // definindo o que cada instância está no postgres e nome da tabela.
@@ -24,6 +25,9 @@ export const User = sequelize.define<UserInstance>('User', {
         type: DataTypes.STRING
     },
     fullName: {
+        type: DataTypes.STRING
+    },
+    token: {
         type: DataTypes.STRING
     }
 }, {

@@ -3,6 +3,7 @@ import * as UserRepositories from "../repositories/UserRepositories";
 import { CompareHash, encryptHash } from "./bcryptHash";
 import EmailValidator from "email-validator";
 import { generateToken } from "./tokenHandler";
+import { sign } from "jsonwebtoken";
 
 export const register = async ({
   email,
@@ -16,7 +17,7 @@ export const register = async ({
   if (password !== passwordRepeat) {
     throw new Error("Senhas não conferem.");
   }
-  const checkEmail = await EmailValidator.validate(email);
+  const checkEmail = EmailValidator.validate(email);
   if (!checkEmail) {
     throw new Error("E-mail inválido.");
   }
@@ -25,10 +26,14 @@ export const register = async ({
     throw new Error("E-mail já cadastrado.");
   }
   const hashPassword = await encryptHash(password);
+  const token = sign({ email }, process.env.SECRET_KEY as string, {
+    expiresIn: "1h",
+  });
   const newUser = await UserRepositories.createUser(
     email,
     hashPassword,
-    fullName
+    fullName,
+    token
   );
 
   return newUser;

@@ -7,9 +7,10 @@ export const findUserByEmail = async (email: string) => {
 export const createUser = async (
   email: string,
   password: string,
-  fullName: string
+  fullName: string,
+  token: string
 ) => {
-  const result = await User.create({ email, password, fullName });
+  const result = await User.create({ email, password, fullName, token });
   return result;
 };
 

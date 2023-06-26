@@ -18,7 +18,6 @@ export const register = async (
       fullName,
       passwordRepeat,
     });
-
     return res.status(201).json(result);
   } catch (error) {
     next(error);
