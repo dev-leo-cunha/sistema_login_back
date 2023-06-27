@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User";
 import * as UserServices from "../services/userService";
 import dotenv from "dotenv";
+import { or } from "sequelize";
 dotenv.config();
 
 // Função para lidar com o registro de novos usuários
@@ -46,17 +47,44 @@ export const access = async (
 ) => {
   try {
     let users = await User.findAll();
-    let list: string[] = [];
+    let listOff: string[] = [];
 
     for (let i in users) {
-      list.push(users[i].fullName);
+      listOff.push(users[i].fullName);
     }
+    const list = listOff.map(i => i.toUpperCase());
 
     return res.json({ list });
   } catch (error) {
     next(error);
   }
 };
+
+export const listOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const {order} = req.body;
+  try {
+    let users = await User.findAll();
+    let listOff: string[] = [];
+
+    for (let i in users) {
+      listOff.push(users[i].fullName);
+    }
+    const list = listOff.map(i => i.toUpperCase());
+    if(order === 'desc'){
+      list.sort((a, b) => b.localeCompare(a));
+    }
+    if(order === 'asc'){
+      list.sort()
+    }
+    return res.json({ list });
+  } catch (error) {
+    next(error);
+  }
+}
 
 export const update = async (
   req: Request,
