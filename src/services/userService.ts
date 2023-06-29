@@ -4,7 +4,10 @@ import { CompareHash, encryptHash } from "./bcryptHash";
 import EmailValidator from "email-validator";
 import { generateToken } from "./tokenHandler";
 import { sign } from "jsonwebtoken";
+// Funções para verificar todos os dados mandados pelo usuário e fazer requisições para o Repositório.
 
+// Função para registrar um novo usuário.
+// Ela faz todas as verificações necessárias antes de fazer requisições para o Repositório.
 export const register = async ({
   email,
   password,
@@ -39,6 +42,9 @@ export const register = async ({
   return newUser;
 };
 
+// Função para fazer o Login do usuário.
+// Verifica todos os dados mandados pelo usuário.
+// Se tudo estiver correto, cria o token de autenticação e faz requisições para o Repositório para procurar o usuário.
 export const login = async (email: string, password: string) => {
   if (!email || !password) {
     throw new Error("Preencha todos os campos.");
@@ -51,11 +57,14 @@ export const login = async (email: string, password: string) => {
   if (!match) {
     throw new Error("Email ou Senha incorreta.");
   }
-  const token = await generateToken(findUser.id, findUser.email);
+  const token = generateToken(findUser.id, findUser.email);
 
   return { token, email: findUser.email, fullName: findUser.fullName };
 };
 
+// Função para atualizar informações do usuário.
+// Verifica todos os dados mandados pelo usuário.
+// Se tudo estiver correto, faz requisições para o Repositório para atualizar os dados.
 export const update = async (
   newName: string,
   newPassword: string,
@@ -80,5 +89,8 @@ export const update = async (
     const hashPassword = await encryptHash(newPassword);
     await UserRepositories.updatePassword(userId, hashPassword);
   }
-  return { message: "Usuário atualizado com sucesso! Você será Redirecionado", id: userId };
+  return {
+    message: "Usuário atualizado com sucesso! Você será Redirecionado",
+    id: userId,
+  };
 };

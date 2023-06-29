@@ -52,7 +52,7 @@ export const access = async (
     for (let i in users) {
       listOff.push(users[i].fullName);
     }
-    const list = listOff.map(i => i.toUpperCase());
+    const list = listOff.map((i) => i.toUpperCase());
 
     return res.json({ list });
   } catch (error) {
@@ -60,12 +60,13 @@ export const access = async (
   }
 };
 
+// função para listar os usuários em ordem crescende ou decrescente.
 export const listOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const {order} = req.body;
+  const { order } = req.body;
   try {
     let users = await User.findAll();
     let listOff: string[] = [];
@@ -73,19 +74,20 @@ export const listOrder = async (
     for (let i in users) {
       listOff.push(users[i].fullName);
     }
-    const list = listOff.map(i => i.toUpperCase());
-    if(order === 'desc'){
+    const list = listOff.map((i) => i.toUpperCase());
+    if (order === "desc") {
       list.sort((a, b) => b.localeCompare(a));
     }
-    if(order === 'asc'){
-      list.sort()
+    if (order === "asc") {
+      list.sort();
     }
     return res.json({ list });
   } catch (error) {
     next(error);
   }
-}
+};
 
+// função para atualizar os dados do usuário.
 export const update = async (
   req: Request,
   res: Response,
