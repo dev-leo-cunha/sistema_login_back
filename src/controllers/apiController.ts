@@ -24,6 +24,20 @@ export const register = async (
     next(error);
   }
 };
+export const checkEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body;
+  try {
+    const result = await UserServices.checkEmail(email);
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // fução para lidar com a autenticação do usuário.
 export const login = async (
   req: Request,

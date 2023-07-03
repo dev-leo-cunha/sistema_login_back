@@ -42,6 +42,19 @@ export const register = async ({
   return newUser;
 };
 
+export const checkEmail = async (email: string) => {
+  const checkEmail = EmailValidator.validate(email);
+  if (!checkEmail) {
+    return { status: false, msg:'Email Inválido' };
+  }
+  const findUser = await UserRepositories.findUserByEmail(email);
+  if (findUser) {
+    return { status: false, msg:'Email já em utilização!' };
+  } else {
+    return { status: true };
+  }
+};
+
 // Função para fazer o Login do usuário.
 // Verifica todos os dados mandados pelo usuário.
 // Se tudo estiver correto, cria o token de autenticação e faz requisições para o Repositório para procurar o usuário.
