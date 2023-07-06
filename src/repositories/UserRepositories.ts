@@ -37,3 +37,9 @@ export const updatePassword = async (id: string, newPassword: string) => {
   );
   return result;
 };
+
+// Função para atualizar o token do usuário.
+export const updateToken = async (id: number, token: string) => {
+  const result = await User.update({ token }, { where: { id } });
+  return result;
+}

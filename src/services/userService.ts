@@ -17,6 +17,9 @@ export const register = async ({
   if (!email || !password || !fullName || !passwordRepeat) {
     throw new Error("Preencha todos os campos.");
   }
+  if (password.length < 3) {
+    throw new Error("A senha deve ter pelo menos 4 caracteres.");
+  }
   if (password !== passwordRepeat) {
     throw new Error("Senhas não conferem.");
   }
@@ -42,14 +45,15 @@ export const register = async ({
   return newUser;
 };
 
+// Função para verificar se um usuário já existe.
 export const checkEmail = async (email: string) => {
   const checkEmail = EmailValidator.validate(email);
   if (!checkEmail) {
-    return { status: false, msg:'Email Inválido' };
+    return { status: false, msg: "Email Inválido" };
   }
   const findUser = await UserRepositories.findUserByEmail(email);
   if (findUser) {
-    return { status: false, msg:'Email já em utilização!' };
+    return { status: false, msg: "Email já em utilização!" };
   } else {
     return { status: true };
   }
@@ -71,7 +75,9 @@ export const login = async (email: string, password: string) => {
     throw new Error("Email ou Senha incorreta.");
   }
   const token = generateToken(findUser.id, findUser.email);
-
+  if (findUser.token === null) {
+    await UserRepositories.updateToken(findUser.id, token);
+  }
   return { token, email: findUser.email, fullName: findUser.fullName };
 };
 
@@ -81,6 +87,7 @@ export const login = async (email: string, password: string) => {
 export const update = async (
   newName: string,
   newPassword: string,
+  newPasswordRepeat: string,
   password: string,
   userId: string
 ) => {
@@ -95,15 +102,24 @@ export const update = async (
   if (!match) {
     throw new Error("Senha antiga incorreta!!");
   }
+  if (newPassword !== newPasswordRepeat) {
+    throw new Error("Senhas não conferem!");
+  }
   if (newName) {
     await UserRepositories.updateName(userId, newName);
+  } else {
+    newName = findUser.fullName;
   }
   if (newPassword) {
+    if (newPassword.length <= 3) {
+      throw new Error("A nova senha deve ter pelo menos 4 caracteres.");
+    }
     const hashPassword = await encryptHash(newPassword);
     await UserRepositories.updatePassword(userId, hashPassword);
   }
   return {
-    message: "Usuário atualizado com sucesso! Você será Redirecionado",
-    id: userId,
+    message: "Usuário atualizado com sucesso!",
+    fullName: newName,
+    token: findUser.token,
   };
 };

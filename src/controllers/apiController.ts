@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User";
 import * as UserServices from "../services/userService";
 import dotenv from "dotenv";
-import { or } from "sequelize";
 dotenv.config();
 
 // Função para lidar com o registro de novos usuários
@@ -24,6 +23,8 @@ export const register = async (
     next(error);
   }
 };
+
+// Função para verificar o email do usuário
 export const checkEmail = async (
   req: Request,
   res: Response,
@@ -107,12 +108,13 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { newName, newPassword, password } = req.body;
+  const { newName, newPassword, newPasswordRepeat, password } = req.body;
   const { userId } = req;
   try {
     const result = await UserServices.update(
       newName,
       newPassword,
+      newPasswordRepeat,
       password,
       userId
     );
